@@ -1,0 +1,114 @@
+apply plugin: 'com.android.application'
+apply plugin: 'spoon'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'realm-android'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "ru.android_studio.gibdd_servis"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionName "1.0.0"
+        versionCode 1
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+spoon {
+    // for debug output
+    debug = true;
+    //adbTimeout = 30;
+
+    // To run a single test class
+    // className = 'fully.qualified.TestCase'
+
+    // To run a single method in TestCase
+    // methodName = 'testMyApp'
+
+    /* You can configure spoon to calculate code coverage by using codeCoverage property on spoon extension */
+    codeCoverage = false
+}
+
+dependencies {
+    // bind view by R.id
+    // http://jakewharton.github.io/butterknife/
+    compile 'com.jakewharton:butterknife:8.1.0'
+    // http://projects.spring.io/spring-android/
+    // compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.4.0'
+
+    // tess-two tool for Tesseract using on Android
+    compile 'com.rmtheis:tess-two:5.4.1'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
+    // Testing-only dependencies
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+
+    // UiAutomator Testing
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
+    androidTestCompile 'org.hamcrest:hamcrest-integration:1.3'
+
+    // automate testing ui
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+
+    // parallel run tests
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.5.4'
+
+    // Unit testing
+    testCompile "org.robolectric:robolectric:3.1"
+    testCompile "junit:junit:4.12"
+    testCompile "org.assertj:assertj-core:1.7.0"
+    testCompile 'org.mockito:mockito-core:1.10.19'
+
+    // http://square.github.io/retrofit/
+    compile 'com.squareup.retrofit2:converter-jackson:2.0.0'
+    compile 'com.squareup.retrofit2:retrofit:2.0.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
+    compile 'com.squareup.okhttp3:okhttp:3.1.2' // кэш
+
+    compile 'io.reactivex:rxjava:1.1.1'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+
+    apt 'com.jakewharton:butterknife-compiler:8.0.1' // bind @BindView
+    provided "org.projectlombok:lombok:1.16.8"
+    compile 'com.squareup.picasso:picasso:2.5.2' // для загрузки изображений с сервера
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+}
+
+defaultTasks 'spoon', 'clean', 'run'
